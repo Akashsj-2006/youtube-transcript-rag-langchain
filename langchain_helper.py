@@ -35,10 +35,10 @@ def get_response_from_query(db, query, k):
     docs = db.similarity_search(query, k=k)
     docs_page_content = " ".join([d.page_content for d in docs])
     llm = ChatOllama(model="llama3.2")
-    
+
 
     prompt = PromptTemplate(
-        input_variable = ["question", "docs"], 
+        input_variables = ["question", "docs"], 
         template="""
         You are a helpful Youtube Assistant that can answer questions abput videos based on this video transcript.
         Answer the questions : {question}
@@ -54,7 +54,7 @@ def get_response_from_query(db, query, k):
         "docs": docs_page_content
     })
 
-    return response.content
+    return response.content, docs
 
 
 db = create_vector_db_from_youtube_url(video_url)
